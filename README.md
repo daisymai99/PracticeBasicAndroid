@@ -8,5 +8,6 @@ https://user-images.githubusercontent.com/43877317/136746245-6ca3f3bb-7527-4958-
 Remember editText by SharedPreferences
 
 
-https://user-images.githubusercontent.com/43877317/136746902-ea8f0352-1237-4cb5-aa58-64ab996f4e35.mp4
+https://user-images.githubusercontent.com/43877317/136769918-7cfdec5e-c85b-4575-b229-02036c0050cb.mp4
+
 
