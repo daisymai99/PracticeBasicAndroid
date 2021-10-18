@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/color1"
+        android:title="Tô màu 1"
+        />
+
+    <item android:id="@+id/color2"
+        android:title="Tô màu 2"
+        />
+
+    <item android:id="@+id/color3"
+        android:title="Tô màu 3"
+        />
+
+</menu>
