@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hongn/AndroidStudioProjects/PracticeBasicAndroid/SQLite2/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/hongn/AndroidStudioProjects/PracticeBasicAndroid/SQLite2/app/src/main/res/layout/favourite_song.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/hongn/AndroidStudioProjects/PracticeBasicAndroid/SQLite2/app/src/main/res/layout/fragment_frag1.xml" value="0.24010416666666667" />
+        <entry key="..\:/Users/hongn/AndroidStudioProjects/PracticeBasicAndroid/SQLite2/app/src/main/res/layout/list_item.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/hongn/AndroidStudioProjects/PracticeBasicAndroid/SQLite2/app/src/main/res/layout/list_song.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/hongn/AndroidStudioProjects/SQLite2/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
       </map>
     </option>

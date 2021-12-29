@@ -1,5 +1,6 @@
 package com.example.sqlite;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
@@ -7,8 +8,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sqlite.databinding.ActivityMainBinding;
@@ -17,17 +22,23 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 
+
     private ActivityMainBinding binding;
 
-    ArrayList<String> danhBa ;
-    ArrayAdapter<String> adapter;
+    TabHost tabHost;
 
-    String Db_Name ="DbContact.db";
+    ListView lstViewSong, lstViewFavouriteSong;
+    SongAdapter adapterSong, adapterFavouriteSong;
+    List<BaiHat> lstSong =new ArrayList<>(), lstFavouriteSong = new ArrayList<>();
+
+    String Db_Name ="Arirang.sqlite";
     private String DB_Path ="/databases/";
     SQLiteDatabase sqLiteDatabase = null;
 
@@ -37,67 +48,81 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
+
         checkDb();
 
 
-        danhBa = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,danhBa);
-        binding.listView.setAdapter(adapter);
+        createTab();
+
+        createListView();
 
 
-        
-        binding.btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ContentValues values = new ContentValues();
-                values.put("ma","3");
-                values.put("ten"," Giang Trinh ");
-                values.put("phone","xxxxxxx");
-
-                long r = sqLiteDatabase.insert("contact",null,values);
-                showDatabase();
-
-                Toast.makeText(MainActivity.this,"Add contact success",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        binding.btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContentValues values = new ContentValues();
-                values.put("ten","Mai Hồng Ngọc ");
-                sqLiteDatabase.update("contact",values,"ma=?",new String[]{"0"});
-                showDatabase();
-            }
-        });
-        
-        binding.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               sqLiteDatabase.delete("contact","ma=?",new String[]{"0"});
-               showDatabase();
-            }
-        });
 
         showDatabase();
     }
 
+    private void createTab() {
+        // Tab
+        tabHost = (TabHost)findViewById(R.id.tabhost);
+        tabHost.setup();
+
+        TabHost.TabSpec tabSpec1;
+        tabSpec1 = tabHost.newTabSpec("tab1");
+        tabSpec1.setContent(R.id.tab1);
+        tabSpec1.setIndicator("Songs");
+        tabHost.addTab(tabSpec1);
+
+        // Tab Favourite
+        TabHost.TabSpec tabSpec2;
+        tabSpec2 = tabHost.newTabSpec("tab2");
+        tabSpec2.setContent(R.id.tab2);
+        tabSpec2.setIndicator("Favoutite");
+        tabHost.addTab(tabSpec2);
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Karaoke");
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
     private void showDatabase() {
         sqLiteDatabase = openOrCreateDatabase(Db_Name,MODE_PRIVATE,null);
 
-        Cursor cursor = sqLiteDatabase.query("contact",null,null,null,null,null,null);
+        Cursor cursor = sqLiteDatabase.query("ArirangSongList",null,null,null,null,null,null);
 
-        danhBa.clear();
+        lstSong.clear();
         while (cursor.moveToNext()){
-            int ma = cursor.getInt(0);
+            String ma = cursor.getString(0);
             String ten = cursor.getString(1);
-            String phone = cursor.getString(2);
-            danhBa.add(ma+" - "+ten+" - "+phone);
+            String casi = cursor.getString(3);
+            String theLoai = cursor.getString(4);
+
+            BaiHat baiHat = new BaiHat();
+            baiHat.setMaBH(ma);
+            baiHat.setTeBH(ten);
+            baiHat.setCasi(casi);
+            baiHat.setTheLoai(theLoai);
+            lstSong.add(baiHat);
+            Log.d("read",baiHat.getTeBH());
         }
+        Log.d("read",String.valueOf(lstSong.size()));
+        cursor.close();
+        adapterSong.notifyDataSetChanged();
+//        Log.d("read",adapter.);
+    }
 
-        adapter.notifyDataSetChanged();
+    private void createListView() {
+        lstViewSong = findViewById(R.id.lstViewSong);
+        lstViewFavouriteSong = findViewById(R.id.lstViewFavouriteSong);
 
+        adapterSong = new SongAdapter(MainActivity.this, R.layout.list_item, lstSong);
+        lstViewSong.setAdapter(adapterSong);
+
+        adapterFavouriteSong = new SongAdapter(MainActivity.this, R.layout.list_item, lstFavouriteSong);
+        lstViewFavouriteSong.setAdapter(adapterFavouriteSong);
     }
 
 

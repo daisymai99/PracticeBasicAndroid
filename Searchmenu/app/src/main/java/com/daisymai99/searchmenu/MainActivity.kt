@@ -6,11 +6,13 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.SearchView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isInvisible
 import com.daisymai99.searchmenu.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -43,7 +45,12 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        binding.listView1.choiceMode = ListView.CHOICE_MODE_SINGLE
+
+        registerForContextMenu(binding.listView1)
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu);
@@ -72,5 +79,39 @@ class MainActivity : AppCompatActivity() {
                 return true}
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateContextMenu(
+        menu: ContextMenu?,
+        v: View?,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        menuInflater.inflate(R.menu.context_menu,menu)
+        super.onCreateContextMenu(menu, v, menuInfo)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        return when( item.itemId){
+            R.id.font1 -> {
+                Toast.makeText(this,"thứ 4",Toast.LENGTH_SHORT).show()
+                Log.d("menu","lôlo")
+
+                return true}
+
+            R.id.fontStyle -> {
+                Toast.makeText(this,"thứ 4",Toast.LENGTH_SHORT).show()
+                Log.d("menu","2")
+
+                return true}
+
+            R.id.txtColor -> {Toast.makeText(this,"thứ 4",Toast.LENGTH_SHORT).show()
+                Log.d("menu","3")
+
+                return true}
+
+            else -> return super.onContextItemSelected(item)
+            }
+
     }
 }
